@@ -1,14 +1,14 @@
-version: '3.8'
+version: '3.9'
 
 services:
     postgres:
-        container_name: postgres_db
+        container_name: ezClothing_postgres
         image: postgres:alpine
         restart: always
         environment:
             - POSTGRES_USER=postgres
-            - POSTGRES_DB=socialMedia
-            - POSTGRES_PASSWORD=socialMediaPassword
+            - POSTGRES_DB=ezClothing
+            - POSTGRES_PASSWORD=admin
         ports:
             - 5432:5432
         volumes:
