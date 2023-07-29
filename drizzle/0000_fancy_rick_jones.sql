@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS "cart" (
 	"user_id" integer,
 	"product_id" integer,
 	"quantity" integer,
-	"create_at" timestamp DEFAULT now()
+	"create_at" timestamp DEFAULT now(),
+	CONSTRAINT "cart_product_id_unique" UNIQUE("product_id")
 );
 
 CREATE TABLE IF NOT EXISTS "orders" (
@@ -19,7 +20,7 @@ CREATE TABLE IF NOT EXISTS "products" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"product_title" varchar(256),
 	"product_description" text,
-	"category" "category" DEFAULT 'clothing',
+	"category" varchar(256),
 	"image_url" varchar(256),
 	"int1" integer DEFAULT 10,
 	"create_at" timestamp DEFAULT now()
@@ -32,7 +33,9 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"password" varchar(256),
 	"phone" varchar(256),
 	"address" text,
-	"create_at" timestamp DEFAULT now()
+	"create_at" timestamp DEFAULT now(),
+	CONSTRAINT "users_email_unique" UNIQUE("email"),
+	CONSTRAINT "users_phone_unique" UNIQUE("phone")
 );
 
 DO $$ BEGIN

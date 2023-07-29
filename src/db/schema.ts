@@ -14,20 +14,19 @@ import { InferModel, relations } from 'drizzle-orm';
 export const users = pgTable('users', {
     id: serial('id').primaryKey(),
     name: text('name'),
-    email: varchar('email', { length: 256 }),
+    email: varchar('email', { length: 256 }).unique(),
     password: varchar('password', { length: 256 }),
-    phone: varchar('phone', { length: 256 }),
+    phone: varchar('phone', { length: 256 }).unique(),
     address: text('address'),
     createAt: timestamp('create_at').defaultNow(),
 });
 
 // Products
-const categoryEnum = pgEnum('category', ['clothing']);
 export const products = pgTable('products', {
     id: serial('id').primaryKey(),
     productTitle: varchar('product_title', { length: 256 }),
     productDescription: text('product_description'),
-    category: categoryEnum('category').default('clothing'),
+    category: varchar('category', { length: 256 }),
     imageUrl: varchar('image_url', { length: 256 }),
     stock: integer('int1').default(10),
     createAt: timestamp('create_at').defaultNow(),
@@ -37,7 +36,9 @@ export const products = pgTable('products', {
 export const cart = pgTable('cart', {
     id: serial('id').primaryKey(),
     userId: integer('user_id').references(() => users.id),
-    productId: integer('product_id').references(() => products.id),
+    productId: integer('product_id')
+        .references(() => products.id)
+        .unique(),
     quantity: integer('quantity'),
     createAt: timestamp('create_at').defaultNow(),
 });

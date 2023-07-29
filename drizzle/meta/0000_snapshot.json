@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "10aed04a-8ad1-431d-a629-9e6a398a93aa",
+  "id": "2aa7b43f-70a5-444a-8400-bd1937518854",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "cart": {
@@ -70,7 +70,15 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "cart_product_id_unique": {
+          "name": "cart_product_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "product_id"
+          ]
+        }
+      }
     },
     "orders": {
       "name": "orders",
@@ -170,10 +178,9 @@
         },
         "category": {
           "name": "category",
-          "type": "category",
+          "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": false,
-          "default": "'clothing'"
+          "notNull": false
         },
         "image_url": {
           "name": "image_url",
@@ -252,7 +259,22 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        },
+        "users_phone_unique": {
+          "name": "users_phone_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "phone"
+          ]
+        }
+      }
     }
   },
   "enums": {},

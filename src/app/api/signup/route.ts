@@ -1,17 +1,27 @@
 import { db } from '@/db';
 import { users } from '@/db/schema';
 import { hash } from '@/lib/hash';
+import { DrizzleError, DrizzleTypeError } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
-    // let res: Users[] = await db.select().from(users);
-    // console.log(res);
     const { name, email, password } = await req.json();
     const hashedPassword = await hash(password);
-    // await db.insert(users).values({ name: 'Andrew' });
+    try {
+        const res = await db
+            .insert(users)
+            .values({ name, email, password: hashedPassword })
+            .returning();
+        console.log(res);
+    } catch (e: any) {
+        if (e.code && e.code == '23505')
+            return NextResponse.json({
+                status: 'failure',
+                message: 'Email already exists',
+            });
+    }
 
-    const res = await db
-        .insert(users)
-        .values({ name, email, password: hashedPassword })
-        .returning();
-    console.log(res);
-    return new Response('ok');
+    return NextResponse.json({
+        status: 'success',
+        message: 'Signup successful',
+    });
 }

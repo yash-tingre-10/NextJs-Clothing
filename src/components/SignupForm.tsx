@@ -44,10 +44,11 @@ export function SignupForm() {
             `${process.env.NEXT_PUBLIC_BASE_URL}/signup`,
             { method: 'POST', body: JSON.stringify(values) }
         );
-        // const result = response.json();
-        // console.log(result);
+        const result = await response.json();
+        console.log(result);
         toast({
-            description: 'Signup Successful',
+            variant: result.status == 'success' ? 'default' : 'destructive',
+            description: result.message,
         });
         setLoading(false);
     }
