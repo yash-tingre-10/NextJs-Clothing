@@ -13,9 +13,9 @@ import { InferModel, relations } from 'drizzle-orm';
 // users,products,orders,cart,reviews
 export const users = pgTable('users', {
     id: serial('id').primaryKey(),
-    name: text('name'),
-    email: varchar('email', { length: 256 }).unique(),
-    password: varchar('password', { length: 256 }),
+    name: text('name').notNull(),
+    email: varchar('email', { length: 256 }).unique().notNull(),
+    password: varchar('password', { length: 256 }).notNull(),
     phone: varchar('phone', { length: 256 }).unique(),
     address: text('address'),
     createAt: timestamp('create_at').defaultNow(),

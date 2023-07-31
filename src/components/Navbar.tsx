@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import Logo from './navbar/Logo';
-import List from './navbar/List';
-import { navList1, navList2 } from './navbar/navList';
 import CartIcon from './navbar/CartIcon';
+import LeftList from './navbar/LeftList';
+import RightList from './navbar/RightList';
 
 interface NavbarProps {}
 
@@ -12,10 +12,10 @@ const Navbar: FC<NavbarProps> = ({}) => {
             <div className="container flex justify-between ">
                 <div className="flex items-center gap-10">
                     <Logo />
-                    <List list={navList1} />
+                    <LeftList />
                 </div>
                 <div className="flex items-center gap-5">
-                    <List list={navList2} />
+                    <RightList />
                     <CartIcon />
                 </div>
             </div>

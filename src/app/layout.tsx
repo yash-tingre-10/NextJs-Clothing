@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
+import Provider from '@/components/Provider';
 
 export const metadata: Metadata = {
     title: 'Ez Clothing',
@@ -16,9 +17,11 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <Navbar />
-                <div className="">{children}</div>
-                <Toaster />
+                <Provider>
+                    <Navbar />
+                    <div className="">{children}</div>
+                    <Toaster />
+                </Provider>
             </body>
         </html>
     );

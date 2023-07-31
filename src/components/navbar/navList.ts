@@ -2,6 +2,7 @@ export interface List {
     id: number;
     title: string;
     href: string;
+    session?: boolean;
 }
 export const navList1: List[] = [
     {
@@ -31,11 +32,13 @@ export const navList2: List[] = [
         id: 1,
         title: 'Login',
         href: '/auth/login',
+        session: false,
     },
     {
         id: 2,
         title: 'Signup',
         href: '/auth/signup',
+        session: false,
     },
     {
         id: 3,
@@ -46,5 +49,11 @@ export const navList2: List[] = [
         id: 4,
         title: 'Contact Us',
         href: '',
+    },
+    {
+        id: 5,
+        title: 'Logout',
+        href: '',
+        session: true,
     },
 ];

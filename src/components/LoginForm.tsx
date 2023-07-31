@@ -15,6 +15,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 
+import { signIn } from 'next-auth/react';
+
+import { useToast } from './ui/use-toast';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { Loader2 } from 'lucide-react';
+
 const formSchema = z.object({
     email: z.string().email({
         message: 'Email format incorrect',
@@ -25,11 +33,36 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const { toast } = useToast();
+    // const router = useRouter();
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        setLoading(true);
+        const { email, password } = values;
+        const response = await signIn('credentials', {
+            redirect: false,
+            email,
+            password,
+        });
+        // const result = await response.json();
+        if (response?.error == 'CredentialsSignin') {
+            toast({
+                variant: 'destructive',
+                description: 'User not found',
+            });
+        } else {
+            toast({
+                description: 'Login successful',
+            });
+
+            window.location.href = response?.url || '/';
+            // router.push(response?.url || '/');
+        }
+        setLoading(false);
     }
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -71,7 +104,14 @@ export function LoginForm() {
                     )}
                 />
                 <div className="flex justify-end">
-                    <Button type="submit">Login</Button>
+                    {loading ? (
+                        <Button disabled>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Please wait
+                        </Button>
+                    ) : (
+                        <Button type="submit">Login</Button>
+                    )}
                 </div>
             </form>
         </Form>

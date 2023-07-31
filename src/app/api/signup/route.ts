@@ -1,9 +1,8 @@
 import { db } from '@/db';
 import { users } from '@/db/schema';
 import { hash } from '@/lib/hash';
-import { DrizzleError, DrizzleTypeError } from 'drizzle-orm';
-import { NextResponse } from 'next/server';
-export async function POST(req: Request) {
+import { NextRequest, NextResponse } from 'next/server';
+export async function POST(req: NextRequest) {
     const { name, email, password } = await req.json();
     const hashedPassword = await hash(password);
     try {
